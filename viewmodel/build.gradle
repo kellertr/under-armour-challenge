@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
 
 android {
     compileSdkVersion 28
@@ -25,10 +28,28 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':network')
 
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // LifeCycle
+    kapt group: 'android.arch.lifecycle', name: 'compiler', version: lifecycle_version
+
+    implementation group: 'androidx.lifecycle', name: 'lifecycle-runtime', version: lifecycle_version
+    implementation group: 'androidx.lifecycle', name: 'lifecycle-extensions', version: lifecycle_version
+
+    implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: rxjavaVersion
+    implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: rxAndroidVersion
+
+    api group: 'com.google.dagger', name: 'dagger', version: daggerVersion
+    kapt group: 'com.google.dagger', name: 'dagger-compiler', version: daggerVersion
+
+    testImplementation "junit:junit:$jUnitVersion"
+    //testImplementation group: 'android.arch.core', name: 'core-testing', version: lifecycle_version
+    testImplementation group: 'com.nhaarman.mockitokotlin2', name: 'mockito-kotlin', version: mockitoKotlinVersion
+
+    testImplementation "androidx.test:core:1.1.0"
+    testImplementation "androidx.test:rules:$androidXTestRulesVersion"
+    testImplementation "androidx.test.ext:junit:$androidXTestExtVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
 }
