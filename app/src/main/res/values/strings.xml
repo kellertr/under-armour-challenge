@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">challenge</string>
+    <string name="app_name">NY Times Challenge</string>
+    <string name="search_hint">Article Search. . . </string>
 </resources>

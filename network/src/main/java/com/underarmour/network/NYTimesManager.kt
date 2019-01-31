@@ -1,9 +1,15 @@
 package com.underarmour.network
 
 import com.underarmour.network.model.Article
+import com.underarmour.network.model.ArticleMultimedia
 import io.reactivex.Single
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+
+const val IMAGE_TYPE = "image"
+const val IMAGE_SUB_TYPE = "xlarge"
+const val NY_TIMES_IMAGE_URL_PREFIX = "https://static01.nyt.com/"
 
 /**
  * The NYTimesManager class will handle any business logic that is required when parsing the response that comes from the
@@ -25,7 +31,21 @@ class NYTimesManager @Inject constructor( val nyTimesApi: NYTimesApi ){
      */
     fun getArticles( page: Int, searchTerm: String ): Single<List<Article>> {
         return nyTimesApi.getArticles( page = page.toString(), searchTerm = searchTerm ).map { container ->
-            return@map container.response?.docs ?: Collections.emptyList<Article>()
+            val response = container.response?.docs?.filter { !it.headline?.main.isNullOrEmpty() }
+                ?: Collections.emptyList<Article>()
+
+            for( article in response ){
+                val mutlimedia = article.multimedia?.filter { it.type == IMAGE_TYPE && it.subType == IMAGE_SUB_TYPE }
+                    ?: Collections.emptyList<ArticleMultimedia>()
+
+                for( image in mutlimedia ){
+                    image.url = NY_TIMES_IMAGE_URL_PREFIX.plus(image.url)
+                }
+
+                article.multimedia = mutlimedia
+            }
+
+            return@map response
         }
     }
 }

@@ -11,7 +11,7 @@ import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 
 object AppInjector {
-    @JvmStatic fun init(application: Application) {
+    fun init(application: Application) {
         application.registerActivityLifecycleCallbacks(object :
             Application.ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {

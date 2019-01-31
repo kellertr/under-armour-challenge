@@ -27,7 +27,6 @@ class NyTimesApplication : Application(), HasActivityInjector {
     override fun onCreate() {
         super.onCreate()
 
-
         DaggerApplicationComponent
             .builder()
             .application(this)
