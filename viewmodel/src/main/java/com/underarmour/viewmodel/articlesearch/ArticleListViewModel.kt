@@ -12,10 +12,16 @@ import io.reactivex.schedulers.Schedulers
 
 const val PAGE_SIZE = 10
 
+/**
+ * The Article ListView Model contains all interactions needed to display an Article List. This view model is
+ * responsible for interacting with the NYTimesManager to expose articles to a calling class. It will also expose
+ * the loading state as well as network error states.
+ */
 class ArticleListViewModel @Inject constructor(val nyTimesManager: NYTimesManager) : ViewModel() {
 
     val disposables: CompositeDisposable = CompositeDisposable()
 
+    //Make the LiveData objects private so we don't accidentally update them outside of this class
     private val articles: MutableLiveData<List<Article>> = MutableLiveData()
     private val networkError: MutableLiveData<Boolean> = MutableLiveData()
     private val isLoadingData: MutableLiveData<Boolean> = MutableLiveData()
@@ -24,24 +30,34 @@ class ArticleListViewModel @Inject constructor(val nyTimesManager: NYTimesManage
     private var currentSearchTerm: String = ""
     private var allDataLoaded = false
 
+    //Getters for our private MutableLiveData objects
     fun getArticleLiveData(): LiveData<List<Article>> = articles
     fun getNetworkErrorLiveData(): LiveData<Boolean> = networkError
     fun getLoadingLiveData(): LiveData<Boolean> = isLoadingData
 
 
-
-    //TO-DO Network Error, ConnectivityError
-
     public override fun onCleared() {
+        //Dispose all pending disposable to avoid leaking this view model
         disposables.dispose()
     }
 
+    /**
+     * This method will interact with the NYTimesManage to retrieve a list of articles for a given page, upon
+     * successfully retrieving articles, we will update our live data object so any observing classes receive our
+     * updates. If we encounter an error, we will update the live data objects there as well.
+     *
+     * @param searchTerm is our new search term
+     */
     fun getArticles(searchTerm: String) {
 
+        //To give customers a chance to enter text before we try and load, we don't make an article search
+        //request until they have entered 3 or more characters
         if( searchTerm.length > 2 ){
             return
         }
 
+        //If we encounter a new search term, reset the page number, clear any pending transactions and re-enable
+        //loading
         if(currentSearchTerm != searchTerm){
             disposables.clear()
             pageNumber = 0
@@ -73,12 +89,18 @@ class ArticleListViewModel @Inject constructor(val nyTimesManager: NYTimesManage
         pageNumber++
     }
 
+    /**
+     * This method is called to load more articles for the same search term
+     */
     fun loadMoreData(  ){
-        if( allDataLoaded ) {
+        if( !allDataLoaded ) {
             getArticles(currentSearchTerm)
         }
     }
 
+    /**
+     * This method is called when we want to reset the page number and reload using the same search term
+     */
     fun reset(){
         pageNumber = 0
     }
