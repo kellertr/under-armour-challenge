@@ -1,6 +1,9 @@
 package com.underarmour.challenge.fragments.search
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +19,6 @@ import com.underarmour.network.model.Article
 import com.underarmour.viewmodel.articlesearch.ArticleListViewModel
 import kotlinx.android.synthetic.main.article_search_fragment.*
 import javax.inject.Inject
-import androidx.recyclerview.widget.DividerItemDecoration
-
-
 
 class ArticleSearchFragment: Fragment() {
 
@@ -41,9 +41,6 @@ class ArticleSearchFragment: Fragment() {
         val manager = LinearLayoutManager(view.context)
         articleList.layoutManager = manager
         articleList.adapter = adapter
-
-        val dividerItemDecoration = DividerItemDecoration(view.context, manager.orientation)
-        articleList.addItemDecoration(dividerItemDecoration)
 
         articleList.addOnScrollListener( object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -79,6 +76,17 @@ class ArticleSearchFragment: Fragment() {
 
         articleListViewModel.getArticleLiveData().observe(viewLifecycleOwner, articleListUpdated)
 
+    }
+
+    private fun showInternetConnectionDialog(){
+        context?.let { appContext ->
+            AlertDialog.Builder(appContext)
+                .setTitle(getString(R.string.no_internet_connection_title))
+                .setMessage(getString(R.string.no_internet_connection_message))
+                .setPositiveButton(getString(R.string.settings)) { _, _ -> appContext.startActivity(Intent(Settings.ACTION_WIFI_SETTINGS)) }
+                .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+                .create().also { it.show() }
+        }
     }
 
     private val articleListUpdated = Observer<List<Article>> { articles ->
