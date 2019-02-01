@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">NY Times Challenge</string>
-    <string name="search_hint">Article Search. . . </string>
+    <string name="search_hint">Article Search. . .</string>
 
     <string name="settings">Settings</string>
     <string name="cancel">Cancel</string>
-    <string name="no_internet_connection_message">Please turn your internet connection on to use this application.</string>
+    <string name="no_internet_connection_message">Please turn your internet connection on to use this application.
+    </string>
     <string name="no_internet_connection_title">No Internet Connection</string>
+
+    <string name="network_error_title">We\'re Sorry</string>
+    <string name="network_error_body">We are unable to load the requested data at this time. Please try a different
+        search term by hitting cancel or hit retry to try this request again.
+    </string>
+    <string name ="retry">Retry</string>
 
     <string name="share_email_subject">Check out this NY Times article!</string>
     <string name="share_send_via">Send using:</string>

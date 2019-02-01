@@ -8,12 +8,14 @@
     <androidx.cardview.widget.CardView android:layout_width="match_parent"
                                        android:layout_height="wrap_content"
                                        android:background="@color/white"
+                                       android:paddingBottom="@dimen/list_padding"
                                        android:elevation="@dimen/elevation">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/detailContainerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/list_padding">
 
             <TextView
                     android:id="@+id/article_detail_title"
@@ -52,7 +54,6 @@
                     app:layout_constraintTop_toBottomOf="@id/article_detail_contributor"
                     android:layout_marginStart="@dimen/list_padding"
                     android:layout_marginEnd="@dimen/list_padding"
-                    android:layout_marginBottom="@dimen/list_padding"
                     style="@style/SnippetText"/>
 
             <Button android:id="@+id/shareButton"
@@ -60,7 +61,7 @@
                     app:layout_constraintTop_toBottomOf="@id/article_detail_snippet"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="@dimen/list_padding"
+                    android:layout_marginTop="5dp"
                     android:text="@string/share_title"
                     android:drawableEnd="@drawable/share_white"
                     android:visibility="gone"/>

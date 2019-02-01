@@ -7,5 +7,4 @@ import javax.inject.Inject
 
 class ArticleSharedViewModel @Inject constructor(): ViewModel() {
     val selectedArticle: MutableLiveData<Article> = MutableLiveData()
-
 }

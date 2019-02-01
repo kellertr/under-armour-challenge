@@ -5,7 +5,7 @@
 
     <dimen name="header_text_size">18sp</dimen>
     <dimen name="category_text_size">16sp</dimen>
-    <dimen name="detail_title_size">20sp</dimen>
+    <dimen name="detail_title_size">24sp</dimen>
 
     <dimen name="elevation">8dp</dimen>
 </resources>

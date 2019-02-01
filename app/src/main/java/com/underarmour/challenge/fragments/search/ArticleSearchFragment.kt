@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.underarmour.challenge.R
 import com.underarmour.challenge.fragments.ArticleDetailFragment
+import com.underarmour.challenge.util.ConnectionUtils
 import com.underarmour.challenge.util.FragmentRunner
 import com.underarmour.network.model.Article
 import com.underarmour.viewmodel.ArticleSharedViewModel
@@ -79,6 +80,8 @@ class ArticleSearchFragment: Fragment(), ArticleSelectedListener {
             .get(ArticleListViewModel::class.java)
 
         articleListViewModel.getArticleLiveData().observe(viewLifecycleOwner, articleListUpdated)
+        articleListViewModel.getLoadingLiveData().observe(viewLifecycleOwner, loadingObserver)
+        articleListViewModel.getNetworkErrorLiveData().observe(viewLifecycleOwner, networkErrorObserver)
 
         activity?.let {
             sharedViewModel = ViewModelProviders.of(it, viewModelFactory).get(ArticleSharedViewModel::class.java)
@@ -97,7 +100,40 @@ class ArticleSearchFragment: Fragment(), ArticleSelectedListener {
         }
     }
 
+    private fun showErrorDialog(){
+        context?.let { appContext ->
+            AlertDialog.Builder(appContext)
+                .setTitle(getString(R.string.network_error_title))
+                .setMessage(getString(R.string.network_error_body))
+                .setPositiveButton(getString(R.string.retry)) { _, _ ->
+                    articleListViewModel.reset()
+                    articleListViewModel.loadMoreData()
+                }
+                .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+                .create().also { it.show() }
+        }
+    }
+
+    private val networkErrorObserver = Observer<Boolean> { hasError ->
+        loadingBar.visibility = View.GONE
+
+        if( hasError && !ConnectionUtils.isOnline(context) ){
+            showInternetConnectionDialog()
+        } else if( hasError && adapter.itemCount == 0 ){
+            showErrorDialog()
+        }
+    }
+
+    private val loadingObserver = Observer<Boolean> { isLoading ->
+        if( isLoading && adapter.itemCount == 0 ){
+            loadingBar.visibility = View.VISIBLE
+        }
+    }
+
     private val articleListUpdated = Observer<List<Article>> { articles ->
+
+        loadingBar.visibility = View.GONE
+
         if( clearOnNextSuccessfulLoad ){
             clearOnNextSuccessfulLoad = false
             adapter.replaceAllData(articles)
