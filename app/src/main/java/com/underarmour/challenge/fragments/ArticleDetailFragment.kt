@@ -15,6 +15,10 @@ import com.underarmour.viewmodel.ArticleSharedViewModel
 import kotlinx.android.synthetic.main.article_detail_fragment.*
 import javax.inject.Inject
 
+/**
+ * The ArticleDetailFragment houses the UI surrounding a particular article. This class utilizes an
+ * ArticleDetailViewModel to display relevant information about an article to users
+ */
 class ArticleDetailFragment: Fragment() {
 
     @Inject
@@ -38,6 +42,7 @@ class ArticleDetailFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        //Establish observers for the article detail view model and article shared view model
         detailViewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(ArticleDetailViewModel::class.java)
 
@@ -53,6 +58,7 @@ class ArticleDetailFragment: Fragment() {
         }
     }
 
+    //Declare observers that will respond to events posted from the detail view model and shared view model
     private val articleObserver = Observer<Article?> { article ->
         detailViewModel.article = article
     }
@@ -86,6 +92,10 @@ class ArticleDetailFragment: Fragment() {
         } ?: run { article_detail_title.visibility = View.GONE }
     }
 
+    /**
+     * This method will trigger a social share for a user. We create an Implicit Intent and users will be
+     * able to choose which application they prefer to share an article using
+     */
     private fun initiateSocialShare(){
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -103,6 +113,9 @@ class ArticleDetailFragment: Fragment() {
 
     companion object {
 
+        /**
+         * @return a new instance of the ArticleDetailFraagment
+         */
         fun newInstance(): ArticleDetailFragment {
             return ArticleDetailFragment()
         }

@@ -12,6 +12,10 @@ import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import javax.inject.Inject
 
+/**
+ * The NYTimesApplication class is a class that is utilized to spin up Dagger for our Application and Activity. This
+ * class will also define a global RX error handler in the event that a disposable gets disposed before an error returns
+ */
 class NyTimesApplication : Application(), HasActivityInjector {
 
     val TAG = NyTimesApplication::class.java.simpleName

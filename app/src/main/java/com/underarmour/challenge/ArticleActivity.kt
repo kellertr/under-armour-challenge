@@ -13,7 +13,10 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.activity_article.*
 import javax.inject.Inject
 
-
+/**
+ * The ArticleActivit is the lone activity of this application. It is responsible for owning the SharedViewModel
+ * that will be shared between our two fragment classes for sharing an article
+ */
 class ArticleActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
