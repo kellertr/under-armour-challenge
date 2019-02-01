@@ -20,7 +20,7 @@ const val NY_TIMES_IMAGE_URL_PREFIX = "https://static01.nyt.com/"
 class NYTimesManager @Inject constructor( val nyTimesApi: NYTimesApi ){
 
     /**
-     * This method will return a Single that will manage interactionms with the FourSquareAPI. This single will emit a
+     * This method will return a Single that will manage interactionms with the NYTimesApi. This single will emit a
      * list of articles to any calling classes.
      *
      * @param page the current page we are requesting data for

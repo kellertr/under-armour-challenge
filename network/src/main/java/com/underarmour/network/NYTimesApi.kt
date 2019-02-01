@@ -27,19 +27,19 @@ interface NYTimesApi {
         const val API_KEY = "d31fe793adf546658bd67e2b6a7fd11a"
 
         /**
-         * Create an instance of the FourSquareAPI utilizing RX and Gson.
+         * Create an instance of the NYTimesApi utilizing RX and Gson.
          *
-         * @return a new instance of the FourSquare API
+         * @return a new instance of the NYTimesApi
          */
         fun create(): NYTimesApi {
             return create(BASE_URL)
         }
 
         /**
-         * Create an instance of the FourSquareAPI utilizing RX and Gson.
+         * Create an instance of the NYTimesApi utilizing RX and Gson.
          *
-         * @param baseUrl is the baseURL for the FourSquareAPI
-         * @return a new instance of the FourSqaure API
+         * @param baseUrl is the baseURL for the NYTimesApi
+         * @return a new instance of the NYTimesApi
          */
         fun create( baseUrl: String ): NYTimesApi {
 

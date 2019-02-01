@@ -26,12 +26,12 @@ class NYTimesManagerTest {
             TestUtil.getContentStringFromFile("/NYTimesLookup.json"),
             NYTimesResponseContainer::class.java)
 
-        //Mock a response from the foursquare api
+        //Mock a response from the NYTimes api
         whenever( api.getArticles(any(), any(), any()) ).thenReturn( Single.just(articles) )
 
         nyTimesManager.getArticles(1, "under armour").test().assertNoErrors().assertValue { articleList ->
 
-            //Validate that the correct mappings of the four square manager class
+            //Validate that the correct mappings of the NYTimesApi class
             Assert.assertTrue("Incorrect article list size", articleList.size == 10  )
 
             articleList[0].apply {
@@ -55,7 +55,7 @@ class NYTimesManagerTest {
             true
         }
 
-        //Validate that the foursquare manager has correct integration with the FourSquareAPI class
+        //Validate that the NYTimes manager has correct integration with the NYTimesApi class
         verify( api, times(1)).getArticles(any(), any(), any())
     }
 }

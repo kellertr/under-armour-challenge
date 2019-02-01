@@ -19,7 +19,7 @@ class NYTimesAPITest {
     fun setup(){
         mockWebServer.start()
 
-        //Initialize a custom instance of the foursquare api so we can utilize a mock web server and
+        //Initialize a custom instance of the nytimes api so we can utilize a mock web server and
         // avoid hitting apis real time
         val retrofit = retrofit2.Retrofit.Builder()
             .baseUrl(mockWebServer.url("").toString())

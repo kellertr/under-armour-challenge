@@ -28,7 +28,6 @@ import javax.inject.Inject
  * The ArticleSearchFragment is the home page of the application. From this page, a user can initiate a type-ahead
  * search to view a list of articles. This Fragment works hand in hand with the ArticleListViewModel and ArticleAdapter
  * for retrieving and displaying data in a list to users.
- *
  */
 class ArticleSearchFragment: Fragment(), ArticleSelectedListener {
 
