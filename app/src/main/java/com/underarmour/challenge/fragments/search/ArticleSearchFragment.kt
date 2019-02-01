@@ -15,16 +15,20 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.underarmour.challenge.R
+import com.underarmour.challenge.fragments.ArticleDetailFragment
+import com.underarmour.challenge.util.FragmentRunner
 import com.underarmour.network.model.Article
+import com.underarmour.viewmodel.ArticleSharedViewModel
 import com.underarmour.viewmodel.articlesearch.ArticleListViewModel
 import kotlinx.android.synthetic.main.article_search_fragment.*
 import javax.inject.Inject
 
-class ArticleSearchFragment: Fragment() {
+class ArticleSearchFragment: Fragment(), ArticleSelectedListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    lateinit var sharedViewModel: ArticleSharedViewModel
     lateinit var articleListViewModel: ArticleListViewModel
     lateinit var adapter: ArticleListAdapter
 
@@ -37,7 +41,7 @@ class ArticleSearchFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ArticleListAdapter()
+        adapter = ArticleListAdapter(this)
         val manager = LinearLayoutManager(view.context)
         articleList.layoutManager = manager
         articleList.adapter = adapter
@@ -76,6 +80,10 @@ class ArticleSearchFragment: Fragment() {
 
         articleListViewModel.getArticleLiveData().observe(viewLifecycleOwner, articleListUpdated)
 
+        activity?.let {
+            sharedViewModel = ViewModelProviders.of(it, viewModelFactory).get(ArticleSharedViewModel::class.java)
+        }
+
     }
 
     private fun showInternetConnectionDialog(){
@@ -96,6 +104,12 @@ class ArticleSearchFragment: Fragment() {
         } else {
             adapter.addArticles( articles )
         }
+    }
+
+    override fun articleSelected(article: Article) {
+        sharedViewModel.selectedArticle.value = article
+
+        FragmentRunner.activateNewFragment(activity, ArticleDetailFragment.newInstance())
     }
 
     companion object {

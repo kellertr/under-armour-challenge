@@ -9,14 +9,20 @@ import com.underarmour.challenge.R
 import com.underarmour.network.model.Article
 import kotlinx.android.synthetic.main.article_row.view.*
 
-class ArticleListAdapter: RecyclerView.Adapter<ArticleHolder>() {
+class ArticleListAdapter(private val articleSelectedListener: ArticleSelectedListener): RecyclerView.Adapter<ArticleHolder>() {
 
     var articles: MutableList<Article> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleHolder =
          ArticleHolder(LayoutInflater.from(parent.context).inflate(R.layout.article_row, parent,false))
 
-    override fun onBindViewHolder(holder: ArticleHolder, position: Int) = holder.bind( articles.get(position) )
+    override fun onBindViewHolder(holder: ArticleHolder, position: Int){
+        val article = articles.get(position)
+        holder.bind( article )
+        holder.itemView.setOnClickListener {
+            articleSelectedListener.articleSelected(article)
+        }
+    }
 
     override fun getItemCount(): Int = articles.size
 
@@ -30,7 +36,6 @@ class ArticleListAdapter: RecyclerView.Adapter<ArticleHolder>() {
         articles.addAll(newArticles)
         notifyDataSetChanged()
     }
-
 }
 
 class ArticleHolder(val view: View): RecyclerView.ViewHolder( view ){
@@ -56,7 +61,12 @@ class ArticleHolder(val view: View): RecyclerView.ViewHolder( view ){
         }
 
         multimedia?.get(0)?.url?.let { imageUrl ->
+            articleImageView.visibility = View.VISIBLE
             Picasso.get().load( imageUrl ).into(articleImageView)
-        } ?: run { articleImageView.setImageDrawable(null) }
+        } ?: run { articleImageView.visibility = View.GONE }
     }
+}
+
+interface ArticleSelectedListener{
+    fun articleSelected( article: Article )
 }

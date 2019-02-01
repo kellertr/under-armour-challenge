@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.underarmour.challenge.fragments.search.ArticleSearchFragment
-import com.underarmour.network.NYTimesManager
 import com.underarmour.viewmodel.ArticleSharedViewModel
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector

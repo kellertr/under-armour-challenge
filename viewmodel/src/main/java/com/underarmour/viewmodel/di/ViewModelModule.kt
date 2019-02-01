@@ -2,6 +2,7 @@ package com.underarmour.viewmodel.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.underarmour.viewmodel.ArticleDetailViewModel
 import com.underarmour.viewmodel.ArticleSharedViewModel
 import com.underarmour.viewmodel.articlesearch.ArticleListViewModel
 import dagger.Binds
@@ -21,10 +22,16 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ArticleSharedViewModel::class)
-    abstract fun bindVenueListViewModel(viewModel: ArticleSharedViewModel): ViewModel
+    abstract fun bindSharedtViewModel(viewModel: ArticleSharedViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(ArticleListViewModel::class)
-    abstract fun bindVenueDetailViewModel(viewModel: ArticleListViewModel): ViewModel
+    abstract fun bindListlViewModel(viewModel: ArticleListViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ArticleDetailViewModel::class)
+    abstract fun bindArticleDetailViewModel(viewModel: ArticleDetailViewModel): ViewModel
 }

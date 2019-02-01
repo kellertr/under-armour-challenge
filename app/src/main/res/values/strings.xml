@@ -6,4 +6,9 @@
     <string name="cancel">Cancel</string>
     <string name="no_internet_connection_message">Please turn your internet connection on to use this application.</string>
     <string name="no_internet_connection_title">No Internet Connection</string>
+
+    <string name="share_email_subject">Check out this NY Times article!</string>
+    <string name="share_send_via">Send using:</string>
+    <string name="share_body">Here it is: %s</string>
+    <string name="share_title">Share Article</string>
 </resources>
